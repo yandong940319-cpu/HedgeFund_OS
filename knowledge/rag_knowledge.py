@@ -18,10 +18,18 @@ class RAGKnowledge:
 
     def __init__(self, collection_name: str = "hedge_fund_reviews"):
         import chromadb
-        self.client = chromadb.HttpClient(
-            host=os.getenv("CHROMA_HOST", "localhost"),
-            port=int(os.getenv("CHROMA_PORT", "8000")),
-        )
+        # Try HTTP client first, fall back to ephemeral (in-memory)
+        try:
+            self.client = chromadb.HttpClient(
+                host=os.getenv("CHROMA_HOST", "localhost"),
+                port=int(os.getenv("CHROMA_PORT", "8000")),
+            )
+            logger.info("RAG: connected to ChromaDB server")
+        except Exception:
+            logger.warning("RAG: ChromaDB server unavailable, using ephemeral mode")
+            self.client = chromadb.Client()
+            logger.info("RAG: ephemeral mode active")
+
         self.collection = self.client.get_or_create_collection(
             name=collection_name,
             metadata={"hnsw:space": "cosine"}
