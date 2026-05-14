@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+dist/
+
+# Config (contains API keys)
+config/.env
+
+# Data
+data/raw/
+data/postgres/
+data/chroma/
+logs/*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store

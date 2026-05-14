@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: hf_postgres
+    environment:
+      POSTGRES_DB: hedgefund
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Passw0rd
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+  redis:
+    image: redis:7-alpine
+    container_name: hf_redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: hf_chroma
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/chroma:/chroma/chroma
+    restart: unless-stopped
