@@ -23,6 +23,10 @@ class FusedSignal(BaseModel):
     score: float = Field(ge=0, le=10)
     action: str  # STRONG_BUY / BUY / HOLD
     confidence: float = Field(ge=0, le=1)
+    entry_price: float = Field(default=0, gt=0)
+    stop_loss: float = Field(gt=0)
+    take_profit: float = Field(gt=0)
+    risk_reward: float = Field(default=0)
     details: str = Field(max_length=300)
 
 
